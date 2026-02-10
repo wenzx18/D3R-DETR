@@ -1,5 +1,9 @@
 # D3R-DETR: DETR with Dual-Domain Density Refinement for Tiny Object Detection in Aerial Images
 
+> D3R-DETR: DETR with Dual-Domain Density Refinement for Tiny Object Detection in Aerial Images
+> 
+> [https://arxiv.org/abs/2601.02747](https://arxiv.org/abs/2601.02747)
+
 ## Abstract
 
 Detecting tiny objects plays a vital role in remote sensing intelligent interpretation, as these objects often carry critical information for downstream applications. However, due to the extremely limited pixel information and significant variations in object density, mainstream Transformer-based detectors often suffer from slow convergence and inaccurate query-object matching. To address these challenges, we propose D3R-DETR, a novel DETR-based detector with Dual-Domain Density Refinement. By fusing spatial and frequency domain information, our method refines low-level feature maps and utilizes their rich details to predict more accurate object density map, thereby guiding the model to precisely localize tiny objects. Extensive experiments on the AI-TOD-v2 dataset demonstrate that D3R-DETR outperforms existing state-of-the-art detectors for tiny object detection.
