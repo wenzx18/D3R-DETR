@@ -878,7 +878,7 @@ class D3RDETRTransformer(nn.Module):
         padded_memory = torch.zeros((B, max_total, memory_first.size(-1)), 
                                 device=enc_topk_memory.device)
         padded_logits = torch.zeros((B, max_total, num_classes), device=enc_topk_logits.device)
-        padded_anchors = torch.zeros((B, max_total, 4), device=enc_topk_anchors.device)
+        # padded_anchors = torch.zeros((B, max_total, 4), device=enc_topk_anchors.device) # Not strictly needed if unact is used
         padded_bbox_unact = torch.zeros((B, max_total, 4), device=enc_topk_anchors.device)
         batch_queries_num = []
 
@@ -886,23 +886,21 @@ class D3RDETRTransformer(nn.Module):
             current_len = total_per_batch[b]
             padded_memory[b, :current_len] = combined_memory[b]
             padded_logits[b, :current_len] = combined_logits[b]
-            padded_anchors[b, :current_len] = combined_anchors[b]
+            # padded_anchors[b, :current_len] = combined_anchors[b]
             padded_bbox_unact[b, :current_len] = combined_bbox_unact[b]
             batch_queries_num.append(current_len)
 
-        # Generate final outputs
+        # 我们直接使用已经 Pad 好的 padded_bbox_unact 和 padded_logits 即可。
         enc_topk_bbox_unact = padded_bbox_unact
 
-        # Prepare training outputs with valid entries only
-        enc_topk_bboxes_list, enc_topk_logits_list = [], []
+        # Prepare training outputs
+        # 直接对整个 Padded 张量做 Sigmoid，保持 [B, Max_Num, 4] 形状
         enc_topk_bboxes = F.sigmoid(enc_topk_bbox_unact)
-        for b in range(B):
-            valid_num = total_per_batch[b]
-            enc_topk_bboxes_list.append(enc_topk_bboxes[b, :valid_num])
-            enc_topk_logits_list.append(padded_logits[b, :valid_num])
-
-        enc_topk_bboxes_list = [torch.stack(enc_topk_bboxes_list, dim=0)]
-        enc_topk_logits_list = [torch.stack(enc_topk_logits_list, dim=0)]
+        
+        # 将结果包装为列表（保持与原始返回格式一致，通常用于 Aux Loss 计算）
+        # 注意：这里不需要循环切片，下游 Loss 计算会根据 batch_queries_num 知道哪些是有效的
+        enc_topk_bboxes_list = [enc_topk_bboxes]
+        enc_topk_logits_list = [padded_logits]
 
         content = padded_memory.detach()
         enc_topk_bbox_unact = enc_topk_bbox_unact.detach()
