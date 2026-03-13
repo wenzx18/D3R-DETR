@@ -10,10 +10,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import numpy as np
 from .FPU import Conv, GaborFPU, FourierFPU, HaarFPU
 
 class LightweightAttention(nn.Module):
