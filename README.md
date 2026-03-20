@@ -12,6 +12,7 @@ Detecting tiny objects plays a vital role in remote sensing intelligent interpre
 
 ## Updates
 
+- 2026/3, our paper has been accepted by IGARSS 2026.
 - 2026/1, the code is released.
 
 ## Installation
