@@ -17,7 +17,7 @@ Detecting tiny objects plays a vital role in remote sensing intelligent interpre
 
 ## Installation
 
-The code is built on [Dome-DETR](https://github.com/RicePasteM/Dome-DETR) with [PyTorch v2.4.0](https://pytorch.org/get-started/locally/), other versions may also work but not tested.
+The code is built on [Dome-DETR](https://github.com/RicePasteM/Dome-DETR) with [PyTorch v2.4.0](https://pytorch.org/get-started/previous-versions/), other versions may also work but not tested.
 
 ```shell
 conda create -n d3rdetr python=3.9
